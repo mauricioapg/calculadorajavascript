@@ -1,0 +1,191 @@
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6" style="background-color:#F1F3F5;">
+                            <h4 ALIGN="CENTER" style="font-weight: bold; margin-top: 20px">Qual sua idade?</h4>
+                            <input class="form-control" type="number" name="txtIdadeAtual" id="txtIdadeAtual" oninput="calcular()" style="font-family: Tahoma; font-size: 20px; text-align: center; margin-bottom: 20px;">
+                            <h4 ALIGN="CENTER" style="font-weight: bold;">Quantos anos tinha quando começou a trabalhar?</h4>
+                            <input class="form-control" type="number" name="txtIdadeInicio" id="txtIdadeInicio" oninput="calcular()" style="font-family: Tahoma; font-size: 20px; text-align: center; margin-bottom: 20px;">
+                            <h4 ALIGN="CENTER" style="font-weight: bold;">Quanto foi seu primeiro salário?</h4>
+                            <input class="form-control" type="text" name="txtPrimeiroSalario" id="txtPrimeiroSalario" oninput="calcular()" onkeydown="Formata(this,20,event,2)" style="font-family: Tahoma; font-size: 20px; text-align: center; margin-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-sm-12" style="background-color:#FF0000; color:#FFFFFF;">
+                                    <h4 ALIGN="CENTER" style="font-weight: bold;">Seu salário mensal hoje deveria ser:</h4>                               
+                                </div>                        
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12" style="background-color:#F1F3F5;">
+                                    <input class="form-control" type="text" name="txtSalarioAtual" id="txtSalarioAtual" style="font-family: Tahoma; font-size: 20px; text-align: center; margin-top: 20px; margin-bottom: 30px;">                              
+                                </div>
+                            </div>
+                        </div>                            
+                    </div>                 
+                </div>        
+                <div class="col-sm-2">
+                </div>
+            </div>
+        </div>
+        <script>
+            function calcular(){                
+                var valorIdadeAtual = document.getElementById('txtIdadeAtual')
+                var valorIdadeInicio = document.getElementById('txtIdadeInicio')
+                var valorPrimeiroSalario = document.getElementById('txtPrimeiroSalario').value
+                var idadeAtual = Number(valorIdadeAtual.value)
+                var idadeInicio = Number(valorIdadeInicio.value)
+                var primeiroSalario = parseFloat(valorPrimeiroSalario.replace(',', '.'))
+                var AnosTrabalhados = idadeAtual - idadeInicio
+                var primeiroAnoSalario = primeiroSalario * 12
+                var calcPotencia = Math.pow(1.1, AnosTrabalhados)
+                var taxaCalc
+                switch(AnosTrabalhados){
+                    case 1:
+                    taxaCalc = 1.04
+                        break;
+                    case 2:
+                    taxaCalc = 1.06810625
+                        break;
+                    case 3:
+                    taxaCalc = 1.135290133
+                        break;
+                    case 4:
+                    taxaCalc = 1.25642559
+                        break;
+                    case 5:
+                    taxaCalc = 1.336962471
+                        break;
+                    case 6:
+                    taxaCalc = 1.415976953
+                        break;
+                    case 7:
+                    taxaCalc = 1.498670007
+                        break;
+                    case 8:
+                    taxaCalc = 1.596083557
+                        break;
+                    case 9:
+                    taxaCalc = 1.690412095
+                        break;
+                    case 10:
+                    taxaCalc = 1.763268857
+                        break;
+                    case 11:
+                    taxaCalc = 1.867301719
+                        break;
+                    case 12:
+                    taxaCalc = 1.950583376
+                        break;
+                    case 13:
+                    taxaCalc = 2.011831694
+                        break;
+                    case 14:
+                    taxaCalc = 2.126304917
+                        break;
+                    case 15:
+                    taxaCalc = 2.287904091
+                        break;
+                    case 16:
+                    taxaCalc = 2.500679171
+                        break;
+                    case 17:
+                    taxaCalc = 2.814014272
+                        break;
+                    case 18:
+                    taxaCalc = 3.075717599
+                        break;
+                    case 19:
+                    taxaCalc = 3.25933794
+                        break;
+                    case 20:
+                    taxaCalc = 3.550722751
+                        break;
+                    case 21:
+                    taxaCalc = 3.609309677
+                        break;
+                    case 22:
+                    taxaCalc = 3.797715642
+                        break;
+                    case 23:
+                    taxaCalc = 4.160777257
+                        break;
+                    case 24:
+                    taxaCalc = 5.093207441
+                        break;
+                    default:
+                        if(AnosTrabalhados > 24){
+                            taxaCalc = 5.093207441
+                        }
+                        break;
+                }
+
+                var rendaAnualHoje = ((primeiroAnoSalario * calcPotencia) + (primeiroAnoSalario * AnosTrabalhados)) * taxaCalc
+                var salarioMensal = rendaAnualHoje / 12
+                var valorFinal = document.getElementById('txtSalarioAtual')
+                valorFinal.value = converterMoeda(Number(salarioMensal.toFixed(2)))
+            }
+
+            function converterMoeda(numero) {
+                var numero = numero.toFixed(2).split('.');
+                numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
+                return numero.join(',');
+            }
+
+            function formatarMoeda(campo,tammax,teclapres,decimal) {
+                    var tecla = teclapres.keyCode;
+                    vr = Limpar(campo.value,"0123456789");
+                    tam = vr.length;
+                    dec=decimal
+
+                    if (tam < tammax && tecla != 8){ tam = vr.length + 1 ; }
+
+                    if (tecla == 8 )
+                    { tam = tam - 1 ; }
+
+                    if ( tecla == 8 || tecla >= 48 && tecla <= 57 || tecla >= 96 && tecla <= 105 )
+                    {
+
+                    if ( tam <= dec )
+                    { campo.value = vr ; }
+
+                    if ( (tam > dec) && (tam <= 5) ){
+                    campo.value = vr.substr( 0, tam - 2 ) + "," + vr.substr( tam - dec, tam ) ; }
+                    if ( (tam >= 6) && (tam <= 8) ){
+                    campo.value = vr.substr( 0, tam - 5 ) + "." + vr.substr( tam - 5, 3 ) + "," + vr.substr( tam - dec, tam ) ;
+                    }
+                    if ( (tam >= 9) && (tam <= 11) ){
+                    campo.value = vr.substr( 0, tam - 8 ) + "." + vr.substr( tam - 8, 3 ) + "." + vr.substr( tam - 5, 3 ) + "," + vr.substr( tam - dec, tam ) ; }
+                    if ( (tam >= 12) && (tam <= 14) ){
+                    campo.value = vr.substr( 0, tam - 11 ) + "." + vr.substr( tam - 11, 3 ) + "." + vr.substr( tam - 8, 3 ) + "." + vr.substr( tam - 5, 3 ) + "," + vr.substr( tam - dec, tam ) ; }
+                    if ( (tam >= 15) && (tam <= 17) ){
+                    campo.value = vr.substr( 0, tam - 14 ) + "." + vr.substr( tam - 14, 3 ) + "." + vr.substr( tam - 11, 3 ) + "." + vr.substr( tam - 8, 3 ) + "." + vr.substr( tam - 5, 3 ) + "," + vr.substr( tam - 2, tam ) ;}
+                    }
+                }
+
+                function Limpar(valor, validos) {
+                    // retira caracteres invalidos da string
+                    var result = "";
+                    var aux;
+                    for (var i=0; i < valor.length; i++) {
+                    aux = validos.indexOf(valor.substring(i, i+1));
+                    if (aux>=0) {
+                    result += aux;
+                    }
+                    }
+                    return result;
+                }
+        </script>
+    </body>
+</html>
